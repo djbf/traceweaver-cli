@@ -1,6 +1,6 @@
 # TraceWeaver CLI — stitch mabl step traces into MP4 🎞️
 
-**TraceWeaver CLI** is a tiny, production-ready command-line tool that stitches the `Screenshot` frames contained in **mabl** step trace JSON files into a single **MP4** video.
+**TraceWeaver CLI** is a command-line tool that stitches the `Screenshot` frames contained in **mabl** step trace JSON files into a single **MP4** video.
 
 - ✅ Works great with **mabl** step traces (https://mabl.com)
 - 🧩 **Input**: a `.zip` of trace JSON files (or `-` to read from stdin)
@@ -12,7 +12,7 @@
 ---
 
 ## Table of contents
-- [What you need (prereqs)](#what-you-need-prereqs)
+- [Prerequisites](#prerequisites)
   - [Node.js + npm](#nodejs--npm)
   - [ffmpeg](#ffmpeg)
 - [Install (public npm) > The installed command is **`traceweave`**.](#install-public-npm)
@@ -26,14 +26,14 @@
 
 ---
 
-## What you need (prereqs)
+## Prerequisites
 
 ### Node.js + npm
 TraceWeaver CLI is a Node.js CLI. We support **Node 18+**.
 
 **macOS** (pick one):
 - 👉 Easiest: download and run the macOS installer from **https://nodejs.org/**
-- or via Homebrew (if you have it):
+- or via Homebrew:
   ```bash
   brew install node
   node -v && npm -v
@@ -55,7 +55,7 @@ TraceWeaver CLI is a Node.js CLI. We support **Node 18+**.
 > If you already have Node, verify with `node -v`. You should see `v18.x` or higher.
 
 ### ffmpeg
-TraceWeaver CLI shells out to your system **ffmpeg** to encode the video.
+TraceWeaver CLI uses **ffmpeg** to encode the video.
 
 **macOS**
 ```bash
@@ -80,7 +80,6 @@ choco install ffmpeg -y
 ## Install (public npm)
 
 > The installed command is **`traceweave`**.
-No logins or tokens required — it’s published to the public npm registry.
 
 ```bash
 # globally
@@ -109,19 +108,17 @@ Where to find `<id>`:
 
 This command will download a `.zip` containing the step trace JSON files — that’s the **input** for TraceWeaver CLI.
 
-> Tip: keep the file names as-is; TraceWeaver CLI processes files in **name-ascending** order to match the expected flow.
-
 ---
 
 ## Make a video!
 Basic usage:
 
 ```bash
-traceweave -i steps.zip -o stitched.mp4
+traceweave -i mabl.zip -o output.mp4
 ```
 
-- `-i, --input <file>`: your `.zip` of mabl step trace JSON files (or `-` to read from stdin)
-- `-o, --output <file>`: output MP4 file (defaults to `output.mp4`)
+- `-i, --input <filename>`: your `.zip` of mabl step trace files (or `-` to read from stdin)
+- `-o, --output <filename>`: output MP4 file (defaults to `output.mp4`)
 
 ---
 
@@ -153,19 +150,12 @@ Options:
 traceweave -i steps.zip -o stitched.mp4
 cat steps.zip | traceweave -i - -o out.mp4
 traceweave -i steps.zip --width 1280 --height 720 -o out-720p.mp4
-traceweave -i steps.zip --min-ms 0 -o out.mp4
+traceweave -i steps.zip --min-ms 0 -o video.mp4
 ```
 
 ---
 
 ## Troubleshooting
-
-### CI didn’t publish to npm?
-- Ensure you pushed a **tag** like `v0.1.1` and that it **matches** `package.json`’s version.
-- In your repo, add an Actions secret **`NPM_TOKEN`** (from npmjs.com) with *Publish* rights:  
-  Settings → Secrets and variables → Actions → **New repository secret** → `NPM_TOKEN`.
-- Open the workflow run → check the **Publish to npm** step for auth or version errors.
-- Locally, test with `npm publish --dry-run` (does not publish).
 
 ### “ffmpeg was not found on your PATH”
 Install ffmpeg (see [ffmpeg](#ffmpeg) above), then restart your terminal. Verify with:
