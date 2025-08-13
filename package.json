@@ -1,6 +1,6 @@
 {
   "name": "traceweaver-cli",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "TraceWeaver CLI: stitch mabl step traces into MP4 (command: traceweave)",
   "type": "module",
   "bin": {
