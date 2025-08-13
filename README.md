@@ -1,9 +1,9 @@
-# TraceWeaver CLI — stitch mabl step traces into MP4 🎞️
+# TraceWeaver CLI — stitch Chrome step traces into videos 🎞️
 
-**TraceWeaver CLI** is a command-line tool that stitches the `Screenshot` frames contained in **mabl** step trace JSON files into a single **MP4** video.
+**TraceWeaver CLI** is a command-line tool that stitches the `Screenshot` frames contained in Chrome step trace files that **mabl** collects during test execution into a single **MP4** video.
 
-- ✅ Works great with **mabl** step traces (https://mabl.com)
-- 🧩 **Input**: a `.zip` of trace JSON files (or `-` to read from stdin)
+- ✅ Works great with Chrome step traces gathered by [mabl](https://mabl.com)
+- 🧩 **Input**: a `.zip` of JSON trace files (or `-` to read from stdin)
 - 🎬 **Output**: `.mp4` (only)
 - 📐 **Default size**: 1920×1080 (customizable)
 - ⏱️ Traces shorter than **400 ms** are skipped by default
