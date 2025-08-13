@@ -1,10 +1,10 @@
-# Traceweaver CLI — stitch mabl step traces into MP4 🎞️
+# TraceWeaver CLI — stitch mabl step traces into MP4 🎞️
 
-**Traceweaver CLI** is a tiny, production-ready command‑line tool that stitches the `Screenshot` frames contained in **mabl** step trace JSON files into a single **MP4** video.
+**TraceWeaver CLI** is a tiny, production-ready command‑line tool that stitches the `Screenshot` frames contained in **mabl** step trace JSON files into a single **MP4** video.
 
 - ✅ **Designed for mabl (https://mabl.com)** step traces
-- 🧩 **Input**: a `.zip` of trace JSON files (or `-` to read from stdin)
-- 🎬 **Output**: `.mp4` (only)
+- 🧩 **Input**: a `.zip` of trace JSON files
+- 🎬 **Output**: `.mp4`
 - 📐 **Default size**: 1920×1080 (customizable)
 - ⏱️ Frame timing is preserved from the trace; traces shorter than **400 ms** are skipped by default
 - 🗂️ Files are processed in **name‑ascending** order; frames within each file follow the **event order**
@@ -16,7 +16,7 @@
   - [Node.js + npm](#nodejs--npm)
   - [ffmpeg](#ffmpeg)
   - [Access to GitHub Packages](#access-to-github-packages)
-- [Install Traceweaver CLI](#install-traceweaver-cli)
+- [Install TraceWeaver CLI](#install-traceweaver-cli)
 - [Get a mabl step trace .zip](#get-a-mabl-step-trace-zip)
 - [Make a video!](#make-a-video)
 - [Command reference](#command-reference)
@@ -30,7 +30,7 @@
 ## What you need (prereqs)
 
 ### Node.js + npm
-Traceweaver CLI is a Node.js CLI. We support **Node 18+**.
+TraceWeaver CLI is a Node.js CLI. We support **Node 18+**.
 
 **macOS** (pick one):
 - 👉 Easiest: download and run the macOS installer from **https://nodejs.org/**
@@ -56,7 +56,7 @@ Traceweaver CLI is a Node.js CLI. We support **Node 18+**.
 > If you already have Node, verify with `node -v`. You should see `v18.x` or higher.
 
 ### ffmpeg
-Traceweaver CLI shells out to your system **ffmpeg** to encode the video.
+TraceWeaver CLI shells out to your system **ffmpeg** to encode the video.
 
 **macOS**
 ```bash
@@ -91,7 +91,7 @@ This package is published privately to **GitHub Packages** under the `@djbf` sco
 
 ---
 
-## Install Traceweaver CLI
+## Install TraceWeaver CLI
 Once Node/npm and your `.npmrc` are set up:
 
 ```bash
@@ -119,7 +119,7 @@ Where to find `<id>`:
 
 This command will download a `.zip` containing the step trace JSON files — that’s the **input** for Traceweave.
 
-> Tip: keep the file names as‑is; Traceweaver CLI processes files in **name‑ascending** order to match the expected flow.
+> Tip: keep the file names as‑is; TraceWeaver CLI processes files in **name‑ascending** order to match the expected flow.
 
 ---
 
@@ -222,13 +222,13 @@ Your global npm **bin** directory may not be on PATH.
 ## FAQ
 
 **Q: Why MP4 only?**  
-A: MP4 (H.264) is broadly compatible and fast to encode. WebM was slower in practice; we removed it to keep the tool lean.
+A: MP4 (H.264) is broadly compatible and fast to encode. WebM encoding was less performant; we removed it to keep the tool lean.
 
 **Q: Where does the output go?**  
 A: The output file (default `output.mp4`) is written to your current working directory.
 
 **Q: Can I change frame rate, quality, or presets?**  
-A: Not yet via flags — the defaults are tuned for speed and compatibility. If you need knobs, open an issue and we can add `--fps`, `--crf`, and `--preset` options.
+A: Not yet via flags — the defaults are tuned for speed and compatibility.
 
 **Q: How does duration work?**  
 A: We compute per‑frame durations from trace timestamps (µs or ms). Traces totaling under **400 ms** are skipped by default (`--min-ms` to change).

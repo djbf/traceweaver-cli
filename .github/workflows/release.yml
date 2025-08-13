@@ -8,7 +8,6 @@ on:
 
 permissions:
   contents: read
-  packages: write
 
 jobs:
   build-pack-publish:
@@ -18,12 +17,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Node
+      - name: Use Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          registry-url: https://npm.pkg.github.com
-          scope: "@djbf"
+          registry-url: https://registry.npmjs.org
           cache: "npm"
 
       - name: Install deps
@@ -31,11 +29,10 @@ jobs:
           if [ -f package-lock.json ]; then
             npm ci
           else
-            echo "No package-lock.json found; using npm install"
             npm install --include=dev --ignore-scripts
           fi
 
-      - name: Build (TypeScript)
+      - name: Build
         run: npm run build
 
       - name: Sanity check dist
@@ -49,7 +46,7 @@ jobs:
           echo "Tag: $TAG, package.json: $PKG"
           [ "$TAG" = "$PKG" ] || { echo "Version mismatch"; exit 1; }
 
-      - name: Create tarball (artifact)
+      - name: Pack (artifact)
         run: npm pack
 
       - name: Upload artifact
@@ -59,8 +56,13 @@ jobs:
           path: ./*.tgz
           if-no-files-found: error
 
-      - name: Publish to GitHub Packages
+      - name: Publish to npm
         if: startsWith(github.ref, 'refs/tags/')
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm publish
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          if node -e "process.exit(require('./package.json').name.startsWith('@') ? 0 : 1)"; then
+            npm publish --access public
+          else
+            npm publish
+          fi

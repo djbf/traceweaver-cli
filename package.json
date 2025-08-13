@@ -1,12 +1,14 @@
 {
-  "name": "@djbf/traceweave",
+  "name": "traceweaver-cli",
+  "description": "Stitch mabl step traces into MP4",
   "version": "0.1.3",
   "type": "module",
   "bin": {
     "traceweave": "dist/cli.js"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.cli.json"
+    "build": "tsc -p tsconfig.cli.json",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "jszip": "^3.10.1",
@@ -24,9 +26,7 @@
     "README.md",
     ".gitignore"
   ],
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
+  "publishConfig": { "access": "public" },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/djbf/traceweaver-cli.git"
