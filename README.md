@@ -15,9 +15,7 @@
 - [What you need (prereqs)](#what-you-need-prereqs)
   - [Node.js + npm](#nodejs--npm)
   - [ffmpeg](#ffmpeg)
-- [Install (public npm)
-
-> The installed command is **`traceweave`**.](#install-public-npm)
+- [Install (public npm) > The installed command is **`traceweave`**.](#install-public-npm)
 - [Get a mabl step trace .zip](#get-a-mabl-step-trace-zip)
 - [Make a video!](#make-a-video)
 - [Command reference](#command-reference)
