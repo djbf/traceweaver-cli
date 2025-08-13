@@ -1,0 +1,35 @@
+{
+  "name": "@djbf/traceweave",
+  "version": "0.1.0",
+  "type": "module",
+  "bin": {
+    "traceweave": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.cli.json"
+  },
+  "dependencies": {
+    "jszip": "^3.10.1",
+    "commander": "^12.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2",
+    "@types/node": "^20.11.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    ".gitignore"
+  ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/djbf/traceweaver-cli.git"
+  },
+  "license": "UNLICENSED"
+}
