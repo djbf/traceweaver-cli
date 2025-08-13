@@ -182,7 +182,7 @@ async function main() {
 
   program
     .name("traceweave")
-    .description("Combine step trace screenshot events into a video with optional filtering")
+    .description("TraceWeaver CLI stitches mabl step trace screenshots into a single MP4")
     .requiredOption("-i, --input <file>", "zip of JSON trace files (use - to read from stdin)")
     .option("-o, --output <file>", "output MP4 filename (defaults to output.mp4)", "output.mp4")
     .option("--min-ms <ms>", "minimum total trace duration to keep (per trace)", "400")

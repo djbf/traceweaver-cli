@@ -1,13 +1,13 @@
 # TraceWeaver CLI — stitch mabl step traces into MP4 🎞️
 
-**TraceWeaver CLI** is a tiny, production-ready command‑line tool that stitches the `Screenshot` frames contained in **mabl** step trace JSON files into a single **MP4** video.
+**TraceWeaver CLI** is a tiny, production-ready command-line tool that stitches the `Screenshot` frames contained in **mabl** step trace JSON files into a single **MP4** video.
 
-- ✅ **Designed for mabl (https://mabl.com)** step traces
-- 🧩 **Input**: a `.zip` of trace JSON files
-- 🎬 **Output**: `.mp4`
+- ✅ Works great with **mabl** step traces (https://mabl.com)
+- 🧩 **Input**: a `.zip` of trace JSON files (or `-` to read from stdin)
+- 🎬 **Output**: `.mp4` (only)
 - 📐 **Default size**: 1920×1080 (customizable)
-- ⏱️ Frame timing is preserved from the trace; traces shorter than **400 ms** are skipped by default
-- 🗂️ Files are processed in **name‑ascending** order; frames within each file follow the **event order**
+- ⏱️ Traces shorter than **400 ms** are skipped by default
+- 🗂️ Files are processed in **name-ascending** order; frames within each file follow the **event order**
 
 ---
 
@@ -15,8 +15,9 @@
 - [What you need (prereqs)](#what-you-need-prereqs)
   - [Node.js + npm](#nodejs--npm)
   - [ffmpeg](#ffmpeg)
-  - [Access to GitHub Packages](#access-to-github-packages)
-- [Install TraceWeaver CLI](#install-traceweaver-cli)
+- [Install (public npm)
+
+> The installed command is **`traceweave`**.](#install-public-npm)
 - [Get a mabl step trace .zip](#get-a-mabl-step-trace-zip)
 - [Make a video!](#make-a-video)
 - [Command reference](#command-reference)
@@ -76,33 +77,24 @@ choco install ffmpeg -y
 
 > If your shell says `ffmpeg: command not found`, ensure it’s installed and on your **PATH**, then restart your terminal.
 
-### Access to GitHub Packages
-This package is published privately to **GitHub Packages** under the `@djbf` scope.
-
-1. Create a **GitHub Personal Access Token (PAT)** with **read:packages**.
-2. Add the following to your `~/.npmrc` (macOS) or `%USERPROFILE%\.npmrc` (Windows):
-   ```ini
-   @djbf:registry=https://npm.pkg.github.com
-   //npm.pkg.github.com/:_authToken=YOUR_GITHUB_PAT
-   always-auth=true
-   ```
-
-> If your organization enforces SSO for packages, make sure your PAT is authorized.
-
 ---
 
-## Install TraceWeaver CLI
-Once Node/npm and your `.npmrc` are set up:
+## Install (public npm)
+
+> The installed command is **`traceweave`**.
+No logins or tokens required — it’s published to the public npm registry.
 
 ```bash
-npm i -g @djbf/traceweaver-cli
-# verify
+# globally
+npm i -g traceweaver-cli
 traceweave -h
+
+# OR project-local, then use npx
+npm i -D traceweaver-cli
+npx traceweave -h
 ```
 
-If `traceweave` isn’t found, try `npm config get prefix` to confirm your global npm bin directory is on PATH.
-- macOS (zsh): add `export PATH="$(npm config get prefix)/bin:$PATH"` to your `~/.zshrc`
-- Windows (PowerShell): ensure the global npm bin folder is listed in **System Environment Variables → Path**
+If `traceweave` isn’t found, see [Troubleshooting](#troubleshooting) for adding npm’s global bin to your PATH.
 
 ---
 
@@ -114,12 +106,12 @@ mabl test-runs export <id> --types step
 ```
 
 Where to find `<id>`:
-- In the mabl test run results page, click the **kebab (⋮) menu** in the top‑right → **View CLI Info**.
+- On the mabl test run results page, click the **kebab (⋮) menu** in the top-right → **View CLI Info**.
 - Or query via mabl CLI to list your test runs and copy the **Test Run ID**.
 
-This command will download a `.zip` containing the step trace JSON files — that’s the **input** for Traceweave.
+This command will download a `.zip` containing the step trace JSON files — that’s the **input** for TraceWeaver CLI.
 
-> Tip: keep the file names as‑is; TraceWeaver CLI processes files in **name‑ascending** order to match the expected flow.
+> Tip: keep the file names as-is; TraceWeaver CLI processes files in **name-ascending** order to match the expected flow.
 
 ---
 
@@ -132,8 +124,6 @@ traceweave -i steps.zip -o stitched.mp4
 
 - `-i, --input <file>`: your `.zip` of mabl step trace JSON files (or `-` to read from stdin)
 - `-o, --output <file>`: output MP4 file (defaults to `output.mp4`)
-
-That’s it — you’ll get a single MP4 with the frames stitched in order.
 
 ---
 
@@ -152,38 +142,32 @@ Options:
 ```
 
 **Behavior details**
-- Files are read from the zip in **name‑ascending** order.
-- Frames inside each file follow the **original event order** in the trace (we do not re‑sort by timestamp).
-- Any trace whose total duration is **< 400 ms** is skipped by default (`--min-ms`).
+- Files are read from the zip in **name-ascending** order.
+- Frames inside each file follow the **original event order** (no timestamp re-sort).
+- Traces totaling **< 400 ms** are skipped by default (`--min-ms`).
 - MP4 encoding uses H.264 (`libx264`, `-preset veryfast`, `-crf 23`, `+faststart`).
 
 ---
 
 ## Examples
 
-**Standard run**
 ```bash
 traceweave -i steps.zip -o stitched.mp4
-```
-
-**Read from stdin**
-```bash
 cat steps.zip | traceweave -i - -o out.mp4
-```
-
-**Change output size**
-```bash
 traceweave -i steps.zip --width 1280 --height 720 -o out-720p.mp4
-```
-
-**Include very short traces**
-```bash
 traceweave -i steps.zip --min-ms 0 -o out.mp4
 ```
 
 ---
 
 ## Troubleshooting
+
+### CI didn’t publish to npm?
+- Ensure you pushed a **tag** like `v0.1.1` and that it **matches** `package.json`’s version.
+- In your repo, add an Actions secret **`NPM_TOKEN`** (from npmjs.com) with *Publish* rights:  
+  Settings → Secrets and variables → Actions → **New repository secret** → `NPM_TOKEN`.
+- Open the workflow run → check the **Publish to npm** step for auth or version errors.
+- Locally, test with `npm publish --dry-run` (does not publish).
 
 ### “ffmpeg was not found on your PATH”
 Install ffmpeg (see [ffmpeg](#ffmpeg) above), then restart your terminal. Verify with:
@@ -192,16 +176,6 @@ which ffmpeg   # macOS/Linux
 where ffmpeg   # Windows
 ffmpeg -version
 ```
-
-### “E401 / needs authentication / unable to authenticate, need: Basic realm=\"GitHub Package Registry\"”
-Your `.npmrc` may be missing the GitHub Packages config or your PAT is invalid/expired.
-- Confirm `~/.npmrc` (or `%USERPROFILE%\.npmrc`) contains:
-  ```ini
-  @djbf:registry=https://npm.pkg.github.com
-  //npm.pkg.github.com/:_authToken=YOUR_GITHUB_PAT
-  always-auth=true
-  ```
-- Ensure the PAT has **read:packages** and (if required) is SSO‑authorized for your org.
 
 ### “command not found: traceweave” after `npm i -g`
 Your global npm **bin** directory may not be on PATH.
@@ -213,31 +187,11 @@ Your global npm **bin** directory may not be on PATH.
   ```
 - Windows: add your global npm bin path to **System → Environment Variables → Path**, then open a new terminal.
 
-### Empty or out‑of‑order output
-- Ensure your zip is the **step traces** export from mabl: `mabl test-runs export <id> --types step`
-- We rely on **filename order** (ascending); rename files if needed to reflect the desired ordering (e.g., `001_...`, `002_...`).
-
----
-
-## FAQ
-
-**Q: Why MP4 only?**  
-A: MP4 (H.264) is broadly compatible and fast to encode. WebM encoding was less performant; we removed it to keep the tool lean.
-
-**Q: Where does the output go?**  
-A: The output file (default `output.mp4`) is written to your current working directory.
-
-**Q: Can I change frame rate, quality, or presets?**  
-A: Not yet via flags — the defaults are tuned for speed and compatibility.
-
-**Q: How does duration work?**  
-A: We compute per‑frame durations from trace timestamps (µs or ms). Traces totaling under **400 ms** are skipped by default (`--min-ms` to change).
-
 ---
 
 ## Uninstall
 ```bash
-npm un -g @djbf/traceweaver-cli
+npm un -g traceweaver-cli
 ```
 
 ---
