@@ -1,6 +1,6 @@
-# Traceweave CLI — stitch mabl step traces into MP4 🎞️
+# Traceweaver CLI — stitch mabl step traces into MP4 🎞️
 
-**Traceweave** is a tiny, production-ready command‑line tool that stitches the `Screenshot` frames contained in **mabl** step trace JSON files into a single **MP4** video.
+**Traceweaver CLI** is a tiny, production-ready command‑line tool that stitches the `Screenshot` frames contained in **mabl** step trace JSON files into a single **MP4** video.
 
 - ✅ **Designed for mabl (https://mabl.com)** step traces
 - 🧩 **Input**: a `.zip` of trace JSON files (or `-` to read from stdin)
@@ -16,7 +16,7 @@
   - [Node.js + npm](#nodejs--npm)
   - [ffmpeg](#ffmpeg)
   - [Access to GitHub Packages](#access-to-github-packages)
-- [Install the Traceweave CLI](#install-the-traceweave-cli)
+- [Install Traceweaver CLI](#install-traceweaver-cli)
 - [Get a mabl step trace .zip](#get-a-mabl-step-trace-zip)
 - [Make a video!](#make-a-video)
 - [Command reference](#command-reference)
@@ -30,7 +30,7 @@
 ## What you need (prereqs)
 
 ### Node.js + npm
-Traceweave is a Node.js CLI. We support **Node 18+**.
+Traceweaver CLI is a Node.js CLI. We support **Node 18+**.
 
 **macOS** (pick one):
 - 👉 Easiest: download and run the macOS installer from **https://nodejs.org/**
@@ -56,7 +56,7 @@ Traceweave is a Node.js CLI. We support **Node 18+**.
 > If you already have Node, verify with `node -v`. You should see `v18.x` or higher.
 
 ### ffmpeg
-Traceweave shells out to your system **ffmpeg** to encode the video.
+Traceweaver CLI shells out to your system **ffmpeg** to encode the video.
 
 **macOS**
 ```bash
@@ -91,11 +91,11 @@ This package is published privately to **GitHub Packages** under the `@djbf` sco
 
 ---
 
-## Install the Traceweave CLI
+## Install Traceweaver CLI
 Once Node/npm and your `.npmrc` are set up:
 
 ```bash
-npm i -g @djbf/traceweave
+npm i -g @djbf/traceweaver-cli
 # verify
 traceweave -h
 ```
@@ -119,7 +119,7 @@ Where to find `<id>`:
 
 This command will download a `.zip` containing the step trace JSON files — that’s the **input** for Traceweave.
 
-> Tip: keep the file names as‑is; Traceweave processes files in **name‑ascending** order to match the expected flow.
+> Tip: keep the file names as‑is; Traceweaver CLI processes files in **name‑ascending** order to match the expected flow.
 
 ---
 
@@ -237,7 +237,7 @@ A: We compute per‑frame durations from trace timestamps (µs or ms). Traces to
 
 ## Uninstall
 ```bash
-npm un -g @djbf/traceweave
+npm un -g @djbf/traceweaver-cli
 ```
 
 ---
