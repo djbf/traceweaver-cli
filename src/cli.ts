@@ -158,6 +158,7 @@ function runFFmpeg(
 ): Promise<void> {
   const vf = `scale=${width}:${height}:force_original_aspect_ratio=decrease,pad=${width}:${height}:(ow-iw)/2:(oh-ih)/2`;
   const args = [
+    "-loglevel", "error",
     "-safe", "0",
     "-f", "concat",
     "-i", listPath,
