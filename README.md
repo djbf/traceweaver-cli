@@ -21,7 +21,6 @@
 - [Command reference](#command-reference)
 - [Examples](#examples)
 - [Troubleshooting](#troubleshooting)
-- [FAQ](#faq)
 - [Uninstall](#uninstall)
 
 ---
